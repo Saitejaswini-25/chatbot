@@ -29,11 +29,11 @@ Before running this project locally, ensure that you have the following installe
 - Clone the repository to your local machine:
 - Navigate into the project directory:
 cd project 2
-Install any necessary dependencies (if applicable):
+- Install any necessary dependencies (if applicable):
 npm install
-Open the project in your browser:
+- Open the project in your browser:
 Open the index.html file in your browser to view the project.
-Contributing
+## Contributing
 Feel free to fork the repository, open issues, and submit pull requests if you'd like to contribute to the project!
 
 - Technologies: Added TypeScript as a primary language used for coding
