@@ -36,5 +36,5 @@ Open the index.html file in your browser to view the project.
 Contributing
 Feel free to fork the repository, open issues, and submit pull requests if you'd like to contribute to the project!
 
--Technologies: Added TypeScript as a primary language used for coding
+- Technologies: Added TypeScript as a primary language used for coding
 - Project Features: Included the interactive nature of answering basic questions, which is a key feature of your project.
