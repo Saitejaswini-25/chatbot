@@ -26,8 +26,8 @@ Before running this project locally, ensure that you have the following installe
 - **Git**: For version control.
 - **Node.js and npm**: For managing dependencies and running the project locally (if applicable).
 ### Installation
-Clone the repository to your local machine:
-Navigate into the project directory:
+- Clone the repository to your local machine:
+- Navigate into the project directory:
 cd project 2
 Install any necessary dependencies (if applicable):
 npm install
