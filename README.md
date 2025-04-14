@@ -39,4 +39,4 @@ Feel free to fork the repository, open issues, and submit pull requests if you'd
 - Technologies: Added TypeScript as a primary language used for coding
 - Project Features: Included the interactive nature of answering basic questions, which is a key feature of your project.
 ## Project Demo
-A live demo of this project can be accessed here: [Live Demo]([https://your-deployment-link.com](https://saitejaswini-25.github.io/chatbot))
+A live demo of this project can be accessed here: [Live Demo](https://your-deployment-link.com](https://saitejaswini-25.github.io/chatbot)
