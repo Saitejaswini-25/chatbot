@@ -14,32 +14,63 @@ function ChatPage() {
   const [isTyping, setIsTyping] = useState(false);
 
   const getBotResponse = (question: string): string => {
-    const lowerQuestion = question.toLowerCase();
-    
-    if (lowerQuestion.includes('hello') || lowerQuestion.includes('hi')||lowerQuestion.includes('hey')||lowerQuestion.includes('hai')) {
-      return "Hello! How can I assist you today?";
-    }
-    if (lowerQuestion.includes('how are you')) {
-      return "I'm doing well, thank you for asking! How can I help you?";
-    }
-    if (lowerQuestion.includes('your name')) {
-      return "I'm ChatBot, your AI assistant. Nice to meet you!";
-    }
-    if (lowerQuestion.includes('weather')) {
-      return "I'm sorry, I don't have access to real-time weather data. You might want to check a weather service for that information.";
-    }
-    if (lowerQuestion.includes('programming language')) {
-      return "The best programming language depends on your goals. Python is great for beginners and AI/ML, JavaScript for web development, Java for enterprise applications, and Swift for iOS development. What's your specific interest?";
-    }
-    if (lowerQuestion.includes('thank')) {
-      return "You're welcome! Let me know if you need anything else.";
-    }
-    if (lowerQuestion.includes('bye') || lowerQuestion.includes('goodbye')) {
-      return "Goodbye! Have a great day!";
-    }
-    
-    return "I understand your question. While I'm a basic chatbot, I'm learning to provide better responses. Could you try rephrasing your question or asking something else?";
-  };
+  const lowerQuestion = question.toLowerCase();
+
+  // Greetings
+  if (
+    lowerQuestion.includes('hello') ||
+    lowerQuestion.includes('hi') ||
+    lowerQuestion.includes('hey') ||
+    lowerQuestion.includes('hai')
+  ) {
+    return "Hello! How can I assist you today?";
+  }
+
+  if (lowerQuestion.includes('how are you')) {
+    return "I'm doing well, thank you for asking! How can I help you?";
+  }
+
+  // Personal & general questions
+  if (lowerQuestion.includes('your name')) {
+    return "I'm ChatBot, your AI assistant. Nice to meet you!";
+  }
+
+  if (lowerQuestion.includes('weather')) {
+    return "I'm sorry, I don't have access to real-time weather data. You might want to check a weather service for that information.";
+  }
+
+  if (lowerQuestion.includes('programming language')) {
+    return "The best programming language depends on your goals. Python is great for beginners and AI/ML, JavaScript for web development, Java for enterprise apps, and Swift for iOS. What's your goal?";
+  }
+
+  if (lowerQuestion.includes('thank')) {
+    return "You're welcome! Let me know if you need anything else.";
+  }
+
+  if (lowerQuestion.includes('bye') || lowerQuestion.includes('goodbye')) {
+    return "Goodbye! Have a great day!";
+  }
+
+  // Menu page related responses
+  if (lowerQuestion.includes('quantum physics')) {
+    return "Quantum physics explains how very tiny particles behave — like atoms and electrons. It’s a bit weird, but super important in modern science!";
+  }
+
+  if (lowerQuestion.includes('wormholes')) {
+    return "Wormholes are like tunnels in space and time. Imagine a shortcut between two faraway places in the universe. Scientists aren’t sure if they really exist though!";
+  }
+
+  if (lowerQuestion.includes('tweet') && lowerQuestion.includes('global warming')) {
+    return "🌍 Global warming is real. Small changes = big impact. Act now, save the planet! #ClimateAction #Sustainability";
+  }
+
+  if (lowerQuestion.includes('poem') && lowerQuestion.includes('love')) {
+    return "Love is a whisper, soft and true,\nA gentle breeze that carries you.\nIn every heartbeat, every sigh,\nLove lifts our spirits to the sky.";
+  }
+
+  return "I understand your question. While I'm a basic chatbot, I'm learning to provide better responses. Could you try rephrasing your question or asking something else?";
+};
+
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
