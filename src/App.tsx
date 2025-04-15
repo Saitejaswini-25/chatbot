@@ -7,7 +7,7 @@ import ChatPage from './pages/ChatPage';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/chatbot"> {/* 👈 THIS FIXES IT */}
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/intro" element={<IntroPage />} />
