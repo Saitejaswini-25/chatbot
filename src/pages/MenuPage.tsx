@@ -8,15 +8,44 @@ function MenuPage() {
 
   const menuItems = [
     { text: "Explain Quantum Physics", prompt: "Explain Quantum Physics" },
-    { text: "What are Wormholes Explain like i am 5", prompt: "What are Wormholes Explain like i am 5" },
+    { text: "What are Wormholes? Explain like I am 5.", prompt: "What are Wormholes? Explain like I am 5." },
     { text: "Write a tweet about global warming", prompt: "Write a tweet about global warming" },
     { text: "Write a poem about love", prompt: "Write a poem about love" }
   ];
 
+  const handleSpeak = () => {
+    const message = "Welcome! Choose a topic below or type your own question to start the conversation.";
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.lang = 'en-US';
+    speechSynthesis.speak(utterance);
+  };
+
+  const handleVoiceInput = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech Recognition not supported in this browser.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.start();
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setCustomPrompt(transcript);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error(event.error);
+      alert("Speech recognition error: " + event.error);
+    };
+  };
+
   return (
     <div className="max-w-md mx-auto h-screen flex flex-col bg-gray-50">
       {/* Header */}
-      <div className="bg-white p-4 flex items-center justify-between border-b">
+      <div className="bg-white p-4 flex items-center justify-between border-b shadow-sm">
         <div className="flex items-center gap-3">
           <button 
             className="p-2 hover:bg-gray-100 rounded-full"
@@ -25,9 +54,7 @@ function MenuPage() {
             <ArrowLeft className="w-6 h-6" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="relative">
-              <Bot className="w-8 h-8" />
-            </div>
+            <Bot className="w-8 h-8 text-[#4285f4]" />
             <div>
               <h1 className="text-xl font-semibold text-[#4285f4]">ChatBot</h1>
               <div className="flex items-center gap-2">
@@ -38,24 +65,24 @@ function MenuPage() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <button className="p-2 hover:bg-gray-100 rounded-full">
-            <Volume2 className="w-6 h-6" />
+          <button onClick={handleSpeak} className="p-2 hover:bg-gray-100 rounded-full">
+            <Volume2 className="w-6 h-6 text-gray-700" />
           </button>
           <button className="p-2 hover:bg-gray-100 rounded-full">
-            <Share2 className="w-6 h-6" />
+            <Share2 className="w-6 h-6 text-gray-700" />
           </button>
         </div>
       </div>
 
-      {/* Menu Buttons */}
-      <div className="flex-1 p-4">
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Explain</h2>
+      {/* Menu Options */}
+      <div className="flex-1 p-6 space-y-8">
+        <div>
+          <h2 className="text-xl font-semibold mb-3 text-gray-800">Explain</h2>
           <div className="space-y-3">
             {menuItems.slice(0, 2).map((item, index) => (
               <button
                 key={index}
-                className="w-full text-left bg-gray-100 p-4 rounded-xl hover:bg-gray-200 transition-colors"
+                className="w-full text-left bg-white p-4 rounded-xl shadow hover:bg-blue-50 transition"
                 onClick={() => navigate('/chat', { state: { prompt: item.prompt } })}
               >
                 {item.text}
@@ -65,12 +92,12 @@ function MenuPage() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Write & Edit</h2>
+          <h2 className="text-xl font-semibold mb-3 text-gray-800">Write & Edit</h2>
           <div className="space-y-3">
             {menuItems.slice(2).map((item, index) => (
               <button
                 key={index}
-                className="w-full text-left bg-gray-100 p-4 rounded-xl hover:bg-gray-200 transition-colors"
+                className="w-full text-left bg-white p-4 rounded-xl shadow hover:bg-blue-50 transition"
                 onClick={() => navigate('/chat', { state: { prompt: item.prompt } })}
               >
                 {item.text}
@@ -82,15 +109,15 @@ function MenuPage() {
 
       {/* Custom Prompt Input */}
       <div className="p-4 bg-white border-t">
-        <div className="flex items-center gap-2 bg-gray-100 rounded-full p-2">
+        <div className="flex items-center gap-2 bg-gray-100 rounded-full p-2 shadow-inner">
           <input
             type="text"
             value={customPrompt}
             onChange={(e) => setCustomPrompt(e.target.value)}
-            placeholder="Hello ChatBot, How are you today?"
-            className="flex-1 bg-transparent outline-none px-2"
+            placeholder="Ask your own question..."
+            className="flex-1 bg-transparent outline-none px-2 text-gray-800"
           />
-          <button className="p-2 hover:bg-gray-200 rounded-full">
+          <button type="button" onClick={handleVoiceInput} className="p-2 hover:bg-gray-200 rounded-full">
             <Mic className="w-5 h-5 text-gray-600" />
           </button>
           <button
@@ -101,9 +128,9 @@ function MenuPage() {
                 navigate('/chat');
               }
             }}
-            className="p-2 text-[#4285f4] hover:bg-blue-50 rounded-full"
+            className="p-2 text-[#4285f4] hover:bg-blue-100 rounded-full transform rotate-90"
           >
-            <Share2 className="w-5 h-5 transform rotate-90" />
+            <Share2 className="w-5 h-5" />
           </button>
         </div>
       </div>
