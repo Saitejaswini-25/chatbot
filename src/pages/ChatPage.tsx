@@ -22,64 +22,6 @@ function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const getBotResponse = (question: string): string => {
-    const lowerQuestion = question.toLowerCase();
-
-    // Greetings
-    if (
-      lowerQuestion.includes('hello') ||
-      lowerQuestion.includes('hi') ||
-      lowerQuestion.includes('hey') ||
-      lowerQuestion.includes('hai')
-    ) {
-      return "Hello! How can I assist you today?";
-    }
-
-    if (lowerQuestion.includes('how are you')) {
-      return "I'm doing well, thank you for asking! How can I help you?";
-    }
-
-    // Personal & general questions
-    if (lowerQuestion.includes('your name')) {
-      return "I'm ChatBot, your AI assistant. Nice to meet you!";
-    }
-
-    if (lowerQuestion.includes('weather')) {
-      return "I'm sorry, I don't have access to real-time weather data. You might want to check a weather service for that information.";
-    }
-
-    if (lowerQuestion.includes('programming language')) {
-      return "The best programming language depends on your goals. Python is great for beginners and AI/ML, JavaScript for web development, Java for enterprise apps, and Swift for iOS. What's your goal?";
-    }
-
-    if (lowerQuestion.includes('thank')) {
-      return "You're welcome! Let me know if you need anything else.";
-    }
-
-    if (lowerQuestion.includes('bye') || lowerQuestion.includes('goodbye')) {
-      return "Goodbye! Have a great day!";
-    }
-
-    // Menu page related responses
-    if (lowerQuestion.includes('quantum physics')) {
-      return "Quantum physics explains how very tiny particles behave — like atoms and electrons. It’s a bit weird, but super important in modern science!";
-    }
-
-    if (lowerQuestion.includes('wormholes')) {
-      return "Wormholes are like tunnels in space and time. Imagine a shortcut between two faraway places in the universe. Scientists aren’t sure if they really exist though!";
-    }
-
-    if (lowerQuestion.includes('tweet') && lowerQuestion.includes('global warming')) {
-      return "🌍 Global warming is real. Small changes = big impact. Act now, save the planet! #ClimateAction #Sustainability";
-    }
-
-    if (lowerQuestion.includes('poem') && lowerQuestion.includes('love')) {
-      return "Love is a whisper, soft and true,\nA gentle breeze that carries you.\nIn every heartbeat, every sigh,\nLove lifts our spirits to the sky.";
-    }
-
-    return "I understand your question. While I'm a basic chatbot, I'm learning to provide better responses. Could you try rephrasing your question or asking something else?";
-  };
-
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputText.trim()) return;
@@ -89,11 +31,33 @@ function ChatPage() {
     setInputText('');
     setIsTyping(true);
 
-    setTimeout(() => {
-      const botResponse = { text: getBotResponse(inputText), isBot: true };
+    try {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "mistralai/mistral-7b-instruct",
+          messages: [
+            { role: "system", content: "You are a warm, clear, direct, helpful assistant." },
+            { role: "user", content: inputText }
+          ]
+        }),
+      });
+
+      const data = await response.json();
+      const botText = data.choices?.[0]?.message?.content || "Sorry, I could not generate a response.";
+      const botResponse = { text: botText, isBot: true };
       setMessages(prev => [...prev, botResponse]);
-      setIsTyping(false);
-    }, 1000);
+    } catch (error) {
+      console.error(error);
+      const botResponse = { text: "Error fetching response. Please try again.", isBot: true };
+      setMessages(prev => [...prev, botResponse]);
+    }
+
+    setIsTyping(false);
   };
 
   const clearChat = () => {
@@ -101,10 +65,87 @@ function ChatPage() {
     setInputText('');
   };
 
+  const handleSpeak = () => {
+    const lastBotMessage = [...messages].reverse().find(msg => msg.isBot);
+    if (lastBotMessage) {
+      const utterance = new SpeechSynthesisUtterance(lastBotMessage.text);
+      utterance.lang = 'en-US';
+      speechSynthesis.speak(utterance);
+    }
+  };
+
+  const handleShare = async () => {
+    const conversationText = messages.map(msg => (msg.isBot ? "Bot: " : "You: ") + msg.text).join('\n');
+    try {
+      await navigator.clipboard.writeText(conversationText);
+      alert("Conversation copied to clipboard!");
+    } catch {
+      alert("Failed to copy conversation.");
+    }
+  };
+
+  const handleVoiceInput = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech Recognition not supported in this browser.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.start();
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInputText(transcript);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error(event.error);
+      alert("Speech recognition error: " + event.error);
+    };
+  };
+
   useEffect(() => {
     if (prompt) {
-      const botResponse = { text: getBotResponse(prompt), isBot: true };
-      setMessages([{ text: prompt, isBot: false }, botResponse]);
+      const userMessage = { text: prompt, isBot: false };
+      setMessages([userMessage]);
+      setIsTyping(true);
+
+      const fetchBotResponse = async () => {
+        try {
+          const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: "mistralai/mistral-7b-instruct",
+              messages: [
+                { role: "system", content: "You are a warm, clear, direct, helpful assistant." },
+                { role: "user", content: prompt }
+              ]
+            }),
+          });
+
+          const data = await response.json();
+          const botReply = data.choices?.[0]?.message?.content || "Sorry, I could not generate a response.";
+          setMessages([
+            userMessage,
+            { text: botReply, isBot: true }
+          ]);
+        } catch (error) {
+          console.error(error);
+          setMessages([
+            userMessage,
+            { text: "Error fetching response. Please try again.", isBot: true }
+          ]);
+        }
+        setIsTyping(false);
+      };
+
+      fetchBotResponse();
     } else {
       setTimeout(() => {
         setMessages([{ text: "Hello! How can I assist you today?", isBot: true }]);
@@ -134,8 +175,10 @@ function ChatPage() {
             <div>
               <h1 className="text-xl font-semibold text-[#4285f4]">ChatBot</h1>
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span className="text-green-600 text-sm">online</span>
+                <span className={`w-2 h-2 rounded-full ${isTyping ? 'bg-yellow-500' : 'bg-green-500'}`}></span>
+                <span className={`text-sm ${isTyping ? 'text-yellow-600' : 'text-green-600'}`}>
+                  {isTyping ? 'typing...' : 'online'}
+                </span>
               </div>
             </div>
           </div>
@@ -144,10 +187,10 @@ function ChatPage() {
           <button className="p-2 hover:bg-gray-100 rounded-full" onClick={clearChat}>
             <Trash2 className="w-6 h-6 text-red-500" />
           </button>
-          <button className="p-2 hover:bg-gray-100 rounded-full">
+          <button className="p-2 hover:bg-gray-100 rounded-full" onClick={handleSpeak}>
             <Volume2 className="w-6 h-6" />
           </button>
-          <button className="p-2 hover:bg-gray-100 rounded-full">
+          <button className="p-2 hover:bg-gray-100 rounded-full" onClick={handleShare}>
             <Share2 className="w-6 h-6" />
           </button>
         </div>
@@ -203,7 +246,7 @@ function ChatPage() {
             placeholder="Write your message"
             className="flex-1 bg-transparent outline-none px-2"
           />
-          <button type="button" className="p-2 hover:bg-gray-200 rounded-full">
+          <button type="button" className="p-2 hover:bg-gray-200 rounded-full" onClick={handleVoiceInput}>
             <Mic className="w-5 h-5 text-gray-600" />
           </button>
           <button
