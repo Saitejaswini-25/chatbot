@@ -5,10 +5,23 @@ function WelcomePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="h-screen bg-[#4285f4] flex items-center justify-center p-4">
-      <div className="w-full max-w-md aspect-square bg-white rounded-3xl flex items-center justify-center">
+    <div className="h-screen bg-[#4285f4] flex flex-col items-center justify-center relative p-4">
+      {/* Halo Ellipse with Attractive Text */}
+      <div className="absolute top-20">
+        <div className="w-72 h-16 bg-white rounded-full shadow-lg flex items-center justify-center">
+          <p className="text-[#4285f4] font-semibold text-lg animate-pulse">
+            Ready to spark a conversation?
+          </p>
+        </div>
+      </div>
+
+      {/* Main Card */}
+      <div className="w-full max-w-md bg-white rounded-3xl flex flex-col items-center justify-center p-6 mt-32">
+        <p className="text-center text-gray-700 mb-4 text-lg font-medium">
+          Tap the icon below to begin your journey.
+        </p>
         <div 
-          className="w-48 h-48 bg-[#4285f4] rounded-full flex items-center justify-center cursor-pointer"
+          className="w-48 h-48 bg-[#4285f4] rounded-full flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
           onClick={() => navigate('/intro')}
         >
           <svg
