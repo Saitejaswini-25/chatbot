@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bot, Volume2, Share2, ArrowLeft, Mic } from 'lucide-react';
+import { Bot, Volume2, Share2, ArrowLeft, Mic, MessageSquare } from 'lucide-react';
 
 function MenuPage() {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ function MenuPage() {
   ];
 
   const handleSpeak = () => {
-    const message = "Welcome! Choose a topic below or type your own question to start the conversation.";
+    const message = "Welcome! Choose a topic below or type your own question to start chatting.";
     const utterance = new SpeechSynthesisUtterance(message);
     utterance.lang = 'en-US';
     speechSynthesis.speak(utterance);
@@ -23,7 +23,7 @@ function MenuPage() {
   const handleVoiceInput = () => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      alert("Speech Recognition not supported in this browser.");
+      alert("Speech Recognition is not supported in this browser.");
       return;
     }
 
@@ -47,7 +47,7 @@ function MenuPage() {
       {/* Header */}
       <div className="bg-white p-4 flex items-center justify-between border-b shadow-sm">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             className="p-2 hover:bg-gray-100 rounded-full"
             onClick={() => navigate('/intro')}
           >
@@ -68,18 +68,15 @@ function MenuPage() {
           <button onClick={handleSpeak} className="p-2 hover:bg-gray-100 rounded-full">
             <Volume2 className="w-6 h-6 text-gray-700" />
           </button>
-          <button className="p-2 hover:bg-gray-100 rounded-full">
-            <Share2 className="w-6 h-6 text-gray-700" />
-          </button>
         </div>
       </div>
 
       {/* Menu Options */}
       <div className="flex-1 p-6 space-y-8">
         <div>
-          <h2 className="text-xl font-semibold mb-3 text-gray-800">Explain</h2>
+          <h2 className="text-xl font-semibold mb-3 text-gray-800">Explore Topics</h2>
           <div className="space-y-3">
-            {menuItems.slice(0, 2).map((item, index) => (
+            {menuItems.map((item, index) => (
               <button
                 key={index}
                 className="w-full text-left bg-white p-4 rounded-xl shadow hover:bg-blue-50 transition"
@@ -91,19 +88,15 @@ function MenuPage() {
           </div>
         </div>
 
-        <div>
-          <h2 className="text-xl font-semibold mb-3 text-gray-800">Write & Edit</h2>
-          <div className="space-y-3">
-            {menuItems.slice(2).map((item, index) => (
-              <button
-                key={index}
-                className="w-full text-left bg-white p-4 rounded-xl shadow hover:bg-blue-50 transition"
-                onClick={() => navigate('/chat', { state: { prompt: item.prompt } })}
-              >
-                {item.text}
-              </button>
-            ))}
-          </div>
+        {/* Direct Chat Button */}
+        <div className="text-center">
+          <button
+            onClick={() => navigate('/chat')}
+            className="inline-flex items-center gap-2 bg-[#4285f4] text-white px-4 py-2 rounded-full shadow hover:bg-blue-600 transition"
+          >
+            <MessageSquare className="w-5 h-5" />
+            Go directly to Chat
+          </button>
         </div>
       </div>
 
