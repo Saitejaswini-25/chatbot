@@ -1,42 +1,73 @@
-# My Figma-Bolt Project
+# 🤖 Real-Time ChatBot
 
-This project showcases my skills in UI/UX design and front-end development. I designed the user interface using **Figma** and implemented it using **Bolt**, with the front-end code written in **TypeScript**, **JavaScript**, **HTML**, and **CSS**. The application answers basic questions based on the user inputs.
+Welcome to **Real-Time ChatBot**, a clean, aesthetic, mobile-friendly chatbot that answers your questions instantly.
 
-## Technologies Used
+Designed with a focus on **UI/UX clarity, responsiveness, and real-time AI integration using OpenRouter**, this chatbot showcases strong **frontend development, product design, and API integration skills**.
 
-- **Figma**: UI/UX design tool used for creating the initial layout.
-- **Bolt**: Front-end framework for building the structure of the web page.
-- **TypeScript**: Used for adding type safety to the JavaScript code.
-- **JavaScript**: Core programming language used for dynamic behavior.
-- **HTML**: Markup language for structuring the content.
-- **CSS**: Styling language used for the layout and visual design.
+---
 
-## Project Features
+## ✨ Features
 
-- **Interactive Question-Answer Functionality**: The application answers basic questions input by the user.
-- **Responsive Design**: The layout is responsive and adjusts to different screen sizes (desktop, tablet, and mobile).
-- **Modern Design**: Designed with a clean, modern look using Figma and implemented with a focus on user experience.
+✅ **Instant Answers** with real-time AI  
+✅ **Voice Input & Speech Output** for hands-free interaction  
+✅ **Clean, Modern UI** with smooth animations  
+✅ **Responsive** across all devices  
+✅ **Easily Share Conversations**  
+✅ **Deployed on Vercel** for global accessibility
 
-## Setup Instructions
+---
 
-### Prerequisites
+## 🛠️ Tech Stack
 
-Before running this project locally, ensure that you have the following installed:
+- **React + Vite**: Fast, modern frontend stack
+- **TypeScript**: Type-safe, maintainable code
+- **Tailwind CSS**: Utility-first, clean styling
+- **OpenRouter API**: Real-time AI-powered answers
+- **lucide-react**: Clean, scalable icons
+- **Vercel**: Deployment and hosting
+- **Figma**: UI/UX design planning
 
-- **Git**: For version control.
-- **Node.js and npm**: For managing dependencies and running the project locally (if applicable).
-### Installation
-- Clone the repository to your local machine:
-- Navigate into the project directory:
-cd project 2
-- Install any necessary dependencies (if applicable):
-npm install
-- Open the project in your browser:
-Open the index.html file in your browser to view the project.
-## Contributing
-Feel free to fork the repository, open issues, and submit pull requests if you'd like to contribute to the project!
+---
 
-- Technologies: Added TypeScript as a primary language used for coding
-- Project Features: Included the interactive nature of answering basic questions, which is a key feature of your project.
-## Project Demo
-A live demo of this project can be accessed here: [Live Demo](https://saitejaswini-25.github.io/chatbot)
+## 🌐 Live Demo
+
+🚀 Experience the chatbot live:
+
+👉 **[ Live ChatBot](https://chatbot-liard-xi.vercel.app/)**
+
+---
+
+## 📸 Project Preview
+
+✅ **Welcome Page:** Clean, engaging entry with smooth animations  
+✅ **Menu Page:** Pick suggested questions or type your own  
+✅ **Chat Page:** Real-time Q&A with typing indicator, voice input, and read-aloud functionality
+
+---
+
+## 🤝 Collaborators
+
+Built and maintained by:
+
+- [Saitejaswini](https://github.com/Saitejaswini-25)
+- [Bhuvana Sree Sahithi](https://github.com/bhuvana816)
+
+---
+
+## 🌟 Contributing
+
+Contributions are welcome! If you have ideas to improve or enhance the chatbot:
+
+1️⃣ **Fork the repository**  
+2️⃣ **Create a feature branch** (`git checkout -b feature-name`)  
+3️⃣ **Commit your changes** (`git commit -m 'Add feature'`)  
+4️⃣ **Push to your branch** (`git push origin feature-name`)  
+5️⃣ **Open a Pull Request**
+
+---
+
+Thank you for exploring this project! 🚀  
+I hope it demonstrates how clean, real-time interfaces can make technology **accessible, engaging, and enjoyable for everyone.**
+
+---
+
